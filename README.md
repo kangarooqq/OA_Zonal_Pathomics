@@ -53,3 +53,34 @@ Additional documentation, including input manifests, execution order, figure-to-
 ## Status
 
 **Code release in preparation.** Files are being deployed individually and manually reviewed before the repository is considered ready for public reproducibility use.
+
+
+## Validation and reproducibility
+
+The repository provides automated functional tests, analysis scripts, and documentation of numerical reproduction using the study datasets.
+
+### Automated code validation
+
+GitHub Actions runs Python tests on repository updates. The latest documented test run completed successfully with **11 passing synthetic functional tests**, covering Figure 3 paired analysis, Figure 4 predictive modelling, and zonal-depth computations. A Python syntax check is also included for `simtk/figure4_models.py`.
+
+These tests verify selected code behaviours using synthetic inputs. They do not independently reproduce the manuscript's numerical findings from the original study data.
+
+### Figure 4 real-data numerical reproduction
+
+The Figure 4 modelling workflow has also been run using the study's specimen-level score table and final zonal pathomics feature table.
+
+The documented analysis uses **89 distinct medial-compartment patients** and includes:
+
+- Fivefold out-of-fold ROC-AUC analyses for three models (traditional grading, brightfield zonal pathomics, and combined predictors), using **PLM_SZ ≥ 3** as the Figure 4c endpoint.
+- An additional three-model out-of-fold analysis for **PLM_Total ≥ 5**, reported as supplementary numerical results without changing the Figure 4c–d panel definitions.
+- Exploratory random-forest feature importance for **PLM_Total ≥ 5**, corresponding to Figure 4d.
+
+The validation report documents the analysis scope, generated output files, and limitations:
+
+**[Read the validation report](docs/VALIDATION_REPORT.md)**
+
+### Scope and limitations
+
+The real-data numerical reproduction is distinct from the GitHub Actions synthetic tests. It does not constitute independent validation of the upstream microscopy-image segmentation, histological feature extraction, specimen-score curation, or image-to-feature processing pipeline.
+
+Study-level input data and generated outputs are not automatically distributed through this repository; their availability and permitted use must be assessed separately.
