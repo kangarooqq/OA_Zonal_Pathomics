@@ -1,4 +1,4 @@
-"""Visium B148: E67 developing-knee spatial reference.
+"""Visium B148: E67 developing-knee spatial reference. 
 
 Single-gene displayed expression: natural log1p(CP10k).
 Requires original raw H5 and processed coordinate H5AD via environment variables.
