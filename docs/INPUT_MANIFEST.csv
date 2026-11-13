@@ -1,0 +1,12 @@
+
+component,dataset,required_input,expected_content,source,repository_included,status,notes
+simtk,Study histopathology,Multistain cartilage images,Original study image files,Study-specific data,No,Pending,Access and redistribution permissions require confirmation
+simtk,Study histopathology,Specimen metadata,Specimen identifiers and clinical or anatomical annotations,Study-specific data,No,Pending,Use de-identified metadata only
+simtk,Study histopathology,Zonal annotations,Zone definitions and image-to-zone mappings,Study-specific annotations,No,Pending,Exact format to be documented with scripts
+visium,GSE260926,Spatial gene-expression matrix,10x Visium expression data,GEO GSE260926,No,Pending,Developing human knee anatomical reference
+visium,GSE260926,Spatial coordinates and tissue image,Spatial positions and image alignment inputs,GEO GSE260926,No,Pending,Not an adult OA cohort
+visium,GSE260926,ROI and zonal annotations,Anatomical region assignments,Analysis-derived annotations,No,Pending,Exact input filenames to be confirmed
+geoseq,GSE254844,Raw gene-count matrix,Gene-by-microregion integer counts,GEO GSE254844,No,Pending,Original dataset contains 124 microregions
+geoseq,GSE254844,Microregion metadata,Sample IDs and condition zone and donor assignments,GEO GSE254844,No,Pending,Required for sample alignment and statistical design
+geoseq,GSE254844,Cleaned count matrix,Counts for 122 retained microregions,Derived from GSE254844,No,Pending,Two low-quality microregions excluded
+geoseq,GSE254844,Cleaned metadata,Metadata aligned to the 122 retained count columns,Derived from GSE254844,No,Pending,Includes 20 control and 102 OA microregions
