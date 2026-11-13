@@ -44,8 +44,6 @@ For the Geo-seq component, 122 quality-controlled microregions are retained from
 
 Geo-seq differential expression analyses use DESeq2 with `sfType = "poscounts"`. Exploratory expression-based module scores use gene-wise standardized log₂(CPM + 1) values.
 
-The currently adopted hypertrophy-associated module comprises `SPP1`, `IBSP` and `COL10A1`.
-
 ## Documentation
 
 Additional documentation, including input manifests, execution order, figure-to-code correspondence and known reproducibility limitations, will be added under `docs/`.
