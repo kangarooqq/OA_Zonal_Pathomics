@@ -1,0 +1,89 @@
+
+# OA_Zonal_Pathomics
+# Local environments, caches, raw data and generated outputs
+
+# Python caches and build artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# R session files and temporary state
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+.Renviron
+.Renviron.*
+!.Renviron.example
+.Rcheck/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*~
+*.swp
+*.swo
+
+# Raw and intermediate datasets
+data/
+raw_data/
+input_data/
+intermediate/
+scratch/
+tmp/
+temp/
+
+# Large sequencing and spatial data files
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bai
+*.cram
+*.h5
+*.h5ad
+*.h5seurat
+*.loom
+*.mtx
+*.mtx.gz
+
+# Geo-seq raw / cleaned count matrices and metadata
+GSE254844_processed_counts*
+GSE254844_Geoseq-metadata*
+
+# Visium input data
+filtered_feature_bc_matrix/
+raw_feature_bc_matrix/
+spatial/
+*.cloupe
+
+# Generated figures, tables and analysis outputs
+outputs/*
+!outputs/.gitkeep
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Microsoft Office temporary lock files
+~$*
