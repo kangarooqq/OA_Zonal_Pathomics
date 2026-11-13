@@ -128,3 +128,89 @@ The GitHub Actions workflow ran under Python 3.11 on Linux and completed all sev
 These tests verify selected software functionality using synthetic inputs. They do not establish numerical reproduction of Figure 3 from the actual 87 patient pairs, validate cartilage segmentation on real microscopy images, or reproduce other manuscript figures and statistical results.
 
 **Scientific validation status: pending real-data reproduction.**
+
+## Figure 4: Real-data numerical reproduction (2026-11-13)
+
+### Input datasets and cohort verification
+
+The Figure 4 analyses were rerun using the following two input datasets:
+
+- `OA_Specimen_Scores_177.csv` — corrected specimen-level pathology scores and PLM outcomes.
+- `OA_Zonal_Pathomics_Master_177_20261101.csv` — final specimen-level zonal pathomic features.
+
+Each input contained 177 specimen records. The datasets were merged using `Patient`, `Region`, and `SpecimenID`. No duplicate specimen keys or conflicting overlapping fields were identified.
+
+After restricting the merged dataset to medial specimens with non-missing `PLM_Total`, the analysis cohort comprised 89 records from 89 distinct patients. All five traditional grading predictors, 27 brightfield zonal pathomic predictors, and both PLM outcomes were available without missing values.
+
+### Figure 4c: Superficial collagen injury
+
+Endpoint: `PLM_SZ >= 3`.
+
+The endpoint was positive in 48 of 89 patients (53.9%).
+
+The original fivefold stratified cross-validation procedure was used, with fold-specific standardisation, logistic regression and random forest probability averaging, and 500 bootstrap resamples of out-of-fold predictions for confidence intervals.
+
+| Model | OOF ROC-AUC | 95% CI |
+|---|---:|---:|
+| Traditional grading | 0.780 | 0.675–0.867 |
+| Brightfield zonal pathomics | 0.727 | 0.609–0.830 |
+| Combined | 0.803 | 0.698–0.884 |
+
+These results reproduce the manuscript's reported Figure 4c AUCs and confidence intervals to three decimal places.
+
+### Additional full-thickness collagen injury analysis
+
+Endpoint: `PLM_Total >= 5`.
+
+The endpoint was positive in 47 of 89 patients (52.8%). The same three model definitions and fivefold out-of-fold evaluation procedure were applied.
+
+| Model | OOF ROC-AUC | 95% CI |
+|---|---:|---:|
+| Traditional grading | 0.799 | 0.698–0.881 |
+| Brightfield zonal pathomics | 0.662 | 0.546–0.775 |
+| Combined | 0.775 | 0.674–0.869 |
+
+The traditional grading and combined model AUCs reproduce the corresponding values reported in the manuscript. This supplementary numerical analysis does not change the definition or visual content of Figure 4c or Figure 4d.
+
+### Figure 4d: Random-forest feature importance
+
+For `PLM_Total >= 5`, a random forest was fitted using all 89 patients and the 27 brightfield zonal pathomic features. The ten highest-ranked features were:
+
+| Rank | Feature | Mean decrease in impurity |
+|---|---|---:|
+| 1 | `MZ_HE_Basophilia` | 0.070 |
+| 2 | `SZ_SurfaceAngle_deg` | 0.068 |
+| 3 | `DZ_SurfaceAngle_deg` | 0.060 |
+| 4 | `SZ_HE_Eosinophilia` | 0.058 |
+| 5 | `Grad_Angle_DZ_SZ` | 0.054 |
+| 6 | `DZ_CloningRate` | 0.045 |
+| 7 | `Surface_Roughness` | 0.044 |
+| 8 | `SZ_CloningRate` | 0.043 |
+| 9 | `DZ_ChondronArea_um2` | 0.041 |
+| 10 | `DZ_SafO_PG` | 0.040 |
+
+The ranking and displayed three-decimal importance values agree with the supplied final Figure 4d.
+
+### Reproduction outputs
+
+The analysis generated the following numerical source-data files:
+
+- `Figure4c_OOF_AUC_Summary.csv`
+- `Figure4c_PatientLevel_OOF_Predictions.csv`
+- `Figure4_FullThickness_PLMTotal5_OOF_AUC_Summary.csv`
+- `Figure4_FullThickness_PLMTotal5_PatientLevel_OOF_Predictions.csv`
+- `Figure4d_All27_FeatureImportance.csv`
+
+Figure 4c ROC and Figure 4d feature-importance visualisations were also generated in PDF, SVG, and TIFF formats.
+
+The numerical outputs were generated in the real-data reproduction session; they are not automatically included in the public GitHub repository. The input datasets should not be assumed to be publicly distributable.
+
+### Scope and limitations
+
+This verification establishes numerical reproducibility of the Figure 4 modelling analyses from the supplied specimen-level CSV datasets under the documented Python implementation.
+
+It does not independently validate the upstream image segmentation, histological feature extraction, specimen-level score curation, or raw microscopy-to-feature processing pipeline.
+
+The Figure 4d impurity-based feature importance is exploratory and derived from a model fitted to the full analysis cohort. It should not be interpreted as cross-validated predictive importance or evidence of causal relationships.
+
+These real-data numerical reproduction results are distinct from the GitHub Actions synthetic functional tests and Python syntax checks.
