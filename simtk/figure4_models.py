@@ -1,3 +1,67 @@
+"""Figure 4c–d reproducible analysis (derived from SimTK Stage4 B021–B023).
+
+Requires the corrected specimen scores and final zonal feature master. No result
+is hard-coded. Validates 89 distinct Medial PLM-complete patients.
+
+Figure 4c uses PLM_SZ >= 3; Figure 4d uses full-cohort RF importance for
+PLM_Total >= 5. An additional three-model OOF analysis for PLM_Total >= 5
+is exported as supplementary numerical source data, without changing either figure.
+"""
+from __future__ import annotations
+import argparse
+from pathlib import Path
+import numpy as np
+import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from sklearn.model_selection import StratifiedKFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_auc_score, roc_curve
+
+TRAD_COLS = ["True_Total_OARSI_Mean", "True_Total_HHGS_Mean",
+             "True_Structure_Mean", "True_SafO_Mean", "True_Cells_Mean"]
+BRIGHT_COLS = [
+ "Cartilage_Area_mm2", "Median_Thickness_um", "Surface_Roughness",
+ "SZ_HE_Basophilia", "MZ_HE_Basophilia", "DZ_HE_Basophilia", "Grad_HE_Baso_DZ_SZ",
+ "SZ_HE_Eosinophilia", "DZ_HE_Eosinophilia",
+ "SZ_SafO_PG", "MZ_SafO_PG", "DZ_SafO_PG", "Grad_SafO_PG_DZ_SZ",
+ "SZ_ChondronDensity_mm2", "MZ_ChondronDensity_mm2", "DZ_ChondronDensity_mm2",
+ "SZ_ChondronArea_um2", "MZ_ChondronArea_um2", "DZ_ChondronArea_um2",
+ "Grad_ChondronArea_DZ_SZ", "SZ_AspectRatio", "DZ_AspectRatio",
+ "SZ_SurfaceAngle_deg", "DZ_SurfaceAngle_deg", "Grad_Angle_DZ_SZ",
+ "SZ_CloningRate", "DZ_CloningRate"]
+
+def load_cohort(scores_csv: Path, features_csv: Path) -> pd.DataFrame:
+    scores = pd.read_csv(scores_csv)
+    zonal = pd.read_csv(features_csv)
+    keys = ["Patient", "Region", "SpecimenID"]
+    for label, table in (("scores", scores), ("zonal", zonal)):
+        if table.duplicated(keys).any():
+            raise ValueError(f"Duplicate specimen keys in {label}")
+    df = scores.merge(zonal, on=keys, how="inner", suffixes=("_score", ""), validate="one_to_one")
+    for c in scores.columns:
+        cs = c + "_score"
+        if c not in keys and c in df.columns and cs in df.columns:
+            if not (df[cs].eq(df[c]) | (df[cs].isna() & df[c].isna())).all():
+                raise ValueError(f"Overlapping field mismatch: {c}")
+    sub = df[(df["Region"] == "Medial") & df["PLM_Total"].notna()].copy().reset_index(drop=True)
+    if len(sub) != 89 or sub["Patient"].nunique() != 89:
+        raise ValueError(f"Expected 89 distinct Medial patients; got {len(sub)} rows and {sub['Patient'].nunique()} patients")
+    cols = TRAD_COLS + BRIGHT_COLS + ["PLM_SZ", "PLM_Total"]
+    missing = sorted(set(cols).difference(sub.columns))
+    if missing:
+        raise KeyError(f"Missing required columns: {missing}")
+    if not sub[cols].notna().all().all():
+        raise ValueError("Missing predictor or endpoint values")
+    return sub
+
+def calculate_oof_auc(X: np.ndarray, y: np.ndarray):
+    """Original Stage4 five-fold recipe and 500-bootstrap OOF confidence interval."""
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    oof = np.zeros(len(y), dtype=float)
     for tr, te in cv.split(X, y):
         scaler = StandardScaler()
         train = scaler.fit_transform(X[tr]); test = scaler.transform(X[te])
@@ -111,3 +175,4 @@ if __name__ == "__main__":
     parser.add_argument("--features", required=True, help="Validated final OA_Zonal_Pathomics_Master_177_20261101.csv")
     parser.add_argument("--output-dir", default="outputs/simtk")
     main(parser.parse_args())
+    
