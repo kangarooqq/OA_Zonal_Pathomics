@@ -96,3 +96,35 @@ The repository is undergoing incremental deployment and manual review.
 Initial code organization and limited synthetic testing have been performed during release preparation. However, full execution with original research inputs, numerical agreement with manuscript results and independent end-to-end reproduction have not yet been established.
 
 This report will be updated as additional scripts, tests and validation evidence become available.
+
+
+## GitHub Actions validation update — 2026-11-13
+
+**Workflow:** Python tests (`.github/workflows/python-tests.yml`)
+
+**Run:** [Python tests #5](https://github.com/kangarooqq/OA_Zonal_Pathomics/actions/runs/43444401774)
+
+**Commit:** `a56b84f`
+
+**Status:** SUCCESS — 7 tests passed.
+
+The GitHub Actions workflow ran under Python 3.11 on Linux and completed all seven synthetic functional tests successfully.
+
+### Figure 3 paired analysis (4 tests)
+
+- Complete 87-pair synthetic input produces the expected output structure.
+- An incomplete 86-pair input is rejected for every outcome.
+- Duplicate patient-region records are rejected.
+- Paired Wilcoxon results agree with an independent calculation.
+
+### Zonal depth computation (3 tests)
+
+- Output structure and background handling are verified.
+- Three-zone assignments and depth thresholds are verified.
+- Micrometres-per-pixel scaling affects thickness without changing normalized depth.
+
+### Scope and limitations
+
+These tests verify selected software functionality using synthetic inputs. They do not establish numerical reproduction of Figure 3 from the actual 87 patient pairs, validate cartilage segmentation on real microscopy images, or reproduce other manuscript figures and statistical results.
+
+**Scientific validation status: pending real-data reproduction.**
