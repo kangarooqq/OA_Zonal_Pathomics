@@ -1,13 +1,12 @@
-
 figure,panel,analysis_component,dataset,script_or_source,mapping_status,notes
 Figure 5,a,visium,GSE260926,visium/figure5_reference.py,Identified,Three-layer anatomical reference overview
 Figure 5,b,visium,GSE260926,visium/figure5_reference.py,Identified,Sub-zonal anatomical reference overview
 Supplementary Figure S4,All,visium,GSE260926,visium/supp_figure_s4.py,Identified,Reference expression panels; numerical reproduction pending
-Figure 6,a,geoseq,GSE254844,GSE254844_Figure6ab_SourceData.R,NWB n=52; final Pearson r=0.617; historical script panel labels require review
-Figure 6,b,geoseq,GSE254844,GSE254844_Figure6ab_SourceData.R,OA n=102; final Pearson r=0.541; historical script panel labels require review
-Figure 6,c,geoseq,GSE254844,Proteoglycan retention versus collagen damage; r=-0.005
-Figure 6,d,geoseq,GSE254844,Four molecular states; Q1=23 Q2=25 Q3=25 Q4=29
+Figure 6,a,geoseq,GSE254844,GSE254844_Figure6ab_SourceData.R,Needs verification,Final NWB n=52 and Pearson r=0.617; historical script labels and numerical results require reconciliation
+Figure 6,b,geoseq,GSE254844,GSE254844_Figure6ab_SourceData.R,Needs verification,Final OA n=102 and Pearson r=0.541; historical script labels and numerical results require reconciliation
+Figure 6,c,geoseq,GSE254844,Not identified,Pending,Proteoglycan retention versus collagen damage; final r=-0.005
+Figure 6,d,geoseq,GSE254844,Not identified,Pending,Four molecular states Q1=23 Q2=25 Q3=25 Q4=29
 Figure 6,e,conceptual,Multimodal synthesis,Conceptual schematic,Non-computational,Descriptive zonal depolarization model; not a gene-expression plot
-Supplementary Figure S3,All,simtk,Study histopathology
-Supplementary Figure S5,d,geoseq,GSE254844
-Supplementary Figure S6,c,geoseq,GSE254844,Constituent gene expression and compartment composition; renderer pending
+Supplementary Figure S3,All,simtk,Study histopathology,Not identified,Pending,Standalone figure renderer not yet identified
+Supplementary Figure S5,d,geoseq,GSE254844,Excluded,Removed,Historical panel removed from final supplementary figure; composite graphic still requires correction
+Supplementary Figure S6,c,geoseq,GSE254844,Not identified,Pending,Constituent gene expression and compartment composition; renderer not yet identified
