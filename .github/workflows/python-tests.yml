@@ -29,3 +29,8 @@ jobs:
 
       - name: Run tests
         run: python -m pytest tests/ -v
+
+      - name: Check Figure 4 script syntax
+        run: python -m py_compile simtk/figure4_models.py
+
+       
