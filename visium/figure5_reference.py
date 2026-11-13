@@ -1,4 +1,4 @@
-"""Visium spatial transcriptomics visualization: E67 developing human knee. 
+"""Visium spatial transcriptomics visualization: E67 developing human knee.  
 
 Requires VISIUM_H5AD containing aligned spatial coordinates and expression. The
 historical marker normalization and geometric ROI criteria are retained; this script
