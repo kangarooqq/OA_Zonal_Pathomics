@@ -14,7 +14,10 @@ def paired_summary(df):
         if missing:raise KeyError(missing)
         tab=df.pivot(index='Patient',columns='Region',values=feature)
         pair=tab[['Lateral','Medial']].dropna()
-        if feature in FEATURES and len(pair)!=87:raise ValueError(f'{feature}: expected 87 complete pairs; found {len(pair)}')
+        if len(pair) != 87:
+            raise ValueError(
+                f"{feature}: expected 87 complete CL/CM pairs; found {len(pair)}"
+            )
         # Original paired Wilcoxon method and two-sided null; no statistical value is hard-coded.
         stat,pval=wilcoxon(pair['Lateral'].to_numpy(float),pair['Medial'].to_numpy(float),alternative='two-sided',zero_method='wilcox')
         records.append(dict(Feature=feature,N_pairs=len(pair),Lateral_mean=pair['Lateral'].mean(),Medial_mean=pair['Medial'].mean(),Wilcoxon_stat=stat,Wilcoxon_P=pval))
